@@ -322,7 +322,7 @@ jobs:
           storePassword=000000
           keyPassword=000000
           keyAlias=000000
-          storeFile=${{ github.workspace }}/release.keystore  
+          storeFile=${{ github.workspace }}/release.keystore
           EOT
           export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
           chmod +x gradlew
