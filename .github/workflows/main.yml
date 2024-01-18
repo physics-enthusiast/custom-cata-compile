@@ -333,7 +333,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         working-directory: ./android
         run: |
-          keytool -genkeypair -noprompt -dname "cn=none, ou=none, o=none, c=none" -alias 000000 -keypass 000000 -keystore ${{ github.workspace }}/android/app/release.keystore -storepass 000000 -validity 20000
+          keytool -genkeypair -noprompt -dname "cn=none, ou=none, o=none, c=none" -alias 000000 -keypass 000000 -keystore ${{ github.workspace }}/android/app/release.keystore -keyalg RSA -keysize 2048 -storepass 000000 -validity 20000
           cat <<EOT >> keystore.properties
           storePassword=000000
           keyPassword=000000
