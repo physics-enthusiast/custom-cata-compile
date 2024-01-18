@@ -177,8 +177,9 @@ jobs:
       - uses: actions/checkout@v3
         with:
             repository: CleverRaven/Cataclysm-DDA
-      - run: |
-          rm --recursive --force ./data/mods/Sky_Island
+      - uses: JesseTG/rm@v1.0.3
+        with:
+            path: data/mods/Sky_Island
       - uses: actions/checkout@v3
         with:
             repository: Standing-Storm/CDDA-Sky-Islands
