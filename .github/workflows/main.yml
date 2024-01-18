@@ -3,7 +3,7 @@ concurrency: release
 on:
   workflow_dispatch: 
   schedule:
-    - cron: "*/10 * * * *" 
+    - cron: "*/30 * * * *" 
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -326,23 +326,19 @@ jobs:
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         working-directory: ./android
         run: |
-          echo "${{ secrets.KEYSTORE }}" > release.keystore.asc   
-          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore 
-          echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
-          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch keystore.properties.asc > keystore.properties
           export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
           chmod +x gradlew
           if [ ${{ matrix.android }} = arm64 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleDebug
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleDebug
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
           elif [ ${{ matrix.android }} = bundle ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
+               ./gradlew -Pj=$((`nproc`+0)) bundleDebug
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - uses: actions/checkout@v3
