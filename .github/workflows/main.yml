@@ -167,7 +167,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-            name: CleverRaven/Cataclysm-DDA
+            repository: CleverRaven/Cataclysm-DDA
       - name: Get soundpack
         if: matrix.sound == 1
         run: |
