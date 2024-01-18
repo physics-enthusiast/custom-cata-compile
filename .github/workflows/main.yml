@@ -73,13 +73,6 @@ jobs:
             ext: zip
             content: application/zip
             sound: 1
-          - name: Windows Object Creator x64
-            mxe: x86_64
-            artifact: windows-objectcreator-x64
-            android: none
-            os: ubuntu-latest
-            ext: zip
-            content: application/zip
           - name: Linux Tiles x64
             os: ubuntu-20.04
             mxe: none
@@ -108,13 +101,6 @@ jobs:
             tiles: 0
             sound: 0
             artifact: linux-curses-x64
-            ext: tar.gz
-            content: application/gzip
-          - name: Linux object creator x64
-            os: ubuntu-20.04
-            mxe: none
-            android: none
-            artifact: linux-objectcreator-x64
             ext: tar.gz
             content: application/gzip
           - name: macOS Curses Universal Binary (x64 and arm64)
