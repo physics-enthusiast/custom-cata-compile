@@ -269,6 +269,7 @@ jobs:
         if: matrix.artifact == 'windows-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
+          path: ./.devcontainer/cross-compile/devcontainer.json
           runCmd: |
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
             make object_creator.exe CROSS="/opt/mxe/usr/bin/x86_64-w64-mingw32.static-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 PREFIX=output PCH=0 MXE_TARGETS='x86_64-w64-mingw32.static' -j4
