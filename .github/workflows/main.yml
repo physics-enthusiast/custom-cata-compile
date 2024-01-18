@@ -327,19 +327,26 @@ jobs:
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         working-directory: ./android
         run: |
+          echo y | keytool -genkeypair -dname "cn=none, ou=none, o=none, c=none" -alias abc -keypass abc -keystore app/release.keystore -storepass abc -validity 20000
+          cat <<EOT >> keystore.properties
+          storePassword=abc
+          keyPassword=abc
+          keyAlias=abc
+          storeFile=app/release.keystore  
+          EOT
           export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
           chmod +x gradlew
           if [ ${{ matrix.android }} = arm64 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleDebug
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleDebug
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease 
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
           elif [ ${{ matrix.android }} = bundle ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) bundleDebug
+               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - run: |
