@@ -1,7 +1,7 @@
 name: "Experimental Release"
 concurrency: 
   group: release
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' }} 
 on:
   workflow_dispatch: 
   schedule:
