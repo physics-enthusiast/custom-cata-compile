@@ -1,5 +1,7 @@
 name: "Experimental Release"
-concurrency: release
+concurrency: 
+  group: release
+  cancel-in-progress: true
 on:
   workflow_dispatch: 
   schedule:
