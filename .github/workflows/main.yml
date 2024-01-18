@@ -344,5 +344,9 @@ jobs:
                ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
+      - uses: actions/checkout@v3
+        with:
+            path: repo
       - run: |
+          cd ./repo
           gh release upload cdda-experimental cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
