@@ -317,12 +317,12 @@ jobs:
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         working-directory: ./android
         run: |
-          keytool -genkeypair -noprompt -dname "cn=none, ou=none, o=none, c=none" -alias 000000 -keypass 000000 -keystore ${{ github.workspace }}/release.keystore -storepass 000000 -validity 20000
+          keytool -genkeypair -noprompt -dname "cn=none, ou=none, o=none, c=none" -alias 000000 -keypass 000000 -keystore ${{ github.workspace }}/app/release.keystore -storepass 000000 -validity 20000
           cat <<EOT >> keystore.properties
           storePassword=000000
           keyPassword=000000
           keyAlias=000000
-          storeFile=${{ github.workspace }}/release.keystore
+          storeFile=${{ github.workspace }}/app/release.keystore
           EOT
           export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
           chmod +x gradlew
