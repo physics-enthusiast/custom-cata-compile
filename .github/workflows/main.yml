@@ -4,7 +4,11 @@ on:
   workflow_dispatch: 
   schedule:
     - cron: "*/30 * * * *" 
-
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/main.yml'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
