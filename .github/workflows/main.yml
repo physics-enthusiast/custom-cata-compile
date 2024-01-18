@@ -26,10 +26,13 @@ jobs:
           echo "tag_name=cdda-experimental" >> $GITHUB_OUTPUT
           echo "release_name=Cataclysm-DDA experimental build" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
+      - uses: mukunku/tag-exists-action@v1.5.0
+        id: check-tag
+        with:
+            tag: ${{ steps.generate_env_vars.outputs.tag_name }}
+      - run: gh release delete ${{ steps.generate_env_vars.outputs.tag_name }} --yes --cleanup-tag
+        if: ${{ steps.check-tag.outputs.exists == 'true' }}
       - run: |
-          if git show-ref --tags --verify --quiet "refs/tags/${{ steps.generate_env_vars.outputs.tag_name }}"; then
-              gh release delete ${{ steps.generate_env_vars.outputs.tag_name }} --yes --cleanup-tag
-          fi
           gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}"
 
   builds:
