@@ -177,9 +177,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
             repository: CleverRaven/Cataclysm-DDA
-      - uses: JesseTG/rm@v1.0.3
-        with:
-            path: data/mods/Sky_Island
       - uses: actions/checkout@v3
         with:
             repository: Standing-Storm/CDDA-Sky-Islands
