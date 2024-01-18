@@ -178,8 +178,7 @@ jobs:
         with:
             repository: CleverRaven/Cataclysm-DDA
       - run: |
-          shopt -s dotglob
-          rm -rf ./data/mods/Sky_Island/*
+          rm -rf ./data/mods/Sky_Island
       - uses: actions/checkout@v3
         with:
             repository: Standing-Storm/CDDA-Sky-Islands
