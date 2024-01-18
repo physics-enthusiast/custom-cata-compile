@@ -36,10 +36,13 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-          echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          echo "tag_name=cdda-experimental" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA experimental build" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
       - run: |
+          if git show-ref --tags --verify --quiet "refs/tags/${{ steps.generate_env_vars.outputs.tag_name }}"; then
+              gh release delete ${{ steps.generate_env_vars.outputs.tag_name }} --yes --cleanup-tag
+          fi
           gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}"
 
   builds:
@@ -176,6 +179,8 @@ jobs:
         ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v3
+        with:
+            name: CleverRaven/Cataclysm-DDA
       - name: Get soundpack
         if: matrix.sound == 1
         run: |
@@ -363,4 +368,4 @@ jobs:
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - run: |
-          gh release upload cdda-experimental-${{ needs.release.outputs.timestamp }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
+          gh release upload cdda-experimental cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
