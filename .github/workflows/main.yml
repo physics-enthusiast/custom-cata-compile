@@ -276,6 +276,13 @@ jobs:
           ./build-scripts/build-emscripten.sh
           ./build-scripts/prepare-web.sh
           (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)
+      - name: Login to GitHub Container Registry
+        if: matrix.artifact == 'windows-objectcreator-x64' || matrix.artifact == 'linux-objectcreator-x64'
+        uses: docker/login-action@v2 
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build object creator (windows)
         if: matrix.artifact == 'windows-objectcreator-x64'
         uses: devcontainers/ci@v0.3
