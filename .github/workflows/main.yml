@@ -280,6 +280,9 @@ jobs:
         if: matrix.artifact == 'windows-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
+          imageName: ghcr.io/${{ github.repository }}/cataclysm-dda-devcontainer-cross-compile
+          cacheFrom: ghcr.io/${{ github.repository }}/cataclysm-dda-devcontainer-cross-compile
+          push: always
           configFile: ./.devcontainer/cross-compile/devcontainer.json
           runCmd: |
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
@@ -288,6 +291,9 @@ jobs:
         if: matrix.artifact == 'linux-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
+          imageName: ghcr.io/${{ github.repository }}/cataclysm-dda-devcontainer
+          cacheFrom: ghcr.io/${{ github.repository }}/cataclysm-dda-devcontainer
+          push: always
           runCmd: |
             sudo apt-get install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
@@ -361,4 +367,4 @@ jobs:
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - run: |
-          gh release upload ${{ needs.release.outputs.tag_name }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} --repo ${{ github.repository }} 
+          gh release upload ${{ needs.release.outputs.tag_name }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} --repo ${{ github.repository }}
