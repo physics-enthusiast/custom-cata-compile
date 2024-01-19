@@ -21,7 +21,7 @@ jobs:
     permissions: write-all
     outputs:
       timestamp: ${{ steps.get-timestamp.outputs.time }}
-      tag_name: ${{ steps.check-tag.outputs.tag_name }}
+      tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
     steps:
       - name: Get build timestamp
         id: get-timestamp
