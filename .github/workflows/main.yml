@@ -1,6 +1,6 @@
 name: "Experimental Release"
 concurrency: 
-  group: release
+  group: ${{ ( github.event_name == 'workflow_dispatch' || github.event_name == 'push' ) && 'manual' ) || 'automated' }}
   cancel-in-progress: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' }} 
 on:
   workflow_dispatch: 
@@ -29,7 +29,7 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "tag_name=cdda-experimental" >> $GITHUB_OUTPUT
+          echo "tag_name=cdda-experimental${{ ( github.event_name == 'workflow_dispatch' || github.event_name == 'push' ) && '-test' ) || '' }}" >> $GITHUB_OUTPUT
           echo "release_name=Cataclysm-DDA experimental build" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
       - uses: mukunku/tag-exists-action@v1.5.0
@@ -360,4 +360,4 @@ jobs:
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - run: |
-          gh release upload cdda-experimental cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} --repo ${{ github.repository }} 
+          gh release upload ${{ steps.generate_env_vars.outputs.tag_name }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} --repo ${{ github.repository }} 
