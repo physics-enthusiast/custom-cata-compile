@@ -1,6 +1,6 @@
 name: "Experimental Release"
 concurrency: 
-  group: ${{ ( github.event_name == 'workflow_dispatch' || github.event_name == 'push' ) && 'manual' ) || 'automated' }}
+  group: ${{ ( ( github.event_name == 'workflow_dispatch' || github.event_name == 'push' ) && 'manual' ) || 'automated' }}
   cancel-in-progress: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' }} 
 on:
   workflow_dispatch: 
