@@ -21,6 +21,7 @@ jobs:
     permissions: write-all
     outputs:
       timestamp: ${{ steps.get-timestamp.outputs.time }}
+      tag_name: ${{ steps.check-tag.outputs.tag_name }}
     steps:
       - name: Get build timestamp
         id: get-timestamp
@@ -360,4 +361,4 @@ jobs:
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - run: |
-          gh release upload ${{ steps.generate_env_vars.outputs.tag_name }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} --repo ${{ github.repository }} 
+          gh release upload ${{ needs.release.outputs.tag_name }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} --repo ${{ github.repository }} 
