@@ -29,7 +29,7 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "tag_name=cdda-experimental${{ ( github.event_name == 'workflow_dispatch' || github.event_name == 'push' ) && '-test' ) || '' }}" >> $GITHUB_OUTPUT
+          echo "tag_name=cdda-experimental${{ ( ( github.event_name == 'workflow_dispatch' || github.event_name == 'push' ) && '-test' ) || '' }}" >> $GITHUB_OUTPUT
           echo "release_name=Cataclysm-DDA experimental build" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
       - uses: mukunku/tag-exists-action@v1.5.0
