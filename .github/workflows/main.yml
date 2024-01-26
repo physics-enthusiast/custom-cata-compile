@@ -300,6 +300,7 @@ jobs:
           cacheFrom: ghcr.io/${{ github.repository }}/cataclysm-dda-devcontainer
           push: always
           runCmd: |
+            sudo apt-get update
             sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
             make -j$((`nproc`+0)) TILES=1 LINTJSON=0 RELEASE=1 object_creator
