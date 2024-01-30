@@ -30,7 +30,7 @@ jobs:
         run: |
           echo "tag_name=cdda-experimental${{ ( ( github.event_name == 'workflow_dispatch' || github.event_name == 'push' ) && '-test' ) || '' }}" >> $GITHUB_OUTPUT
           echo "release_name=Cataclysm-DDA experimental build" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: mukunku/tag-exists-action@v1.5.0
         id: check-tag
         with:
@@ -173,12 +173,12 @@ jobs:
     env:
         ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
             repository: CleverRaven/Cataclysm-DDA
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-            repository: Standing-Storm/CDDA-Sky-Islands
+            repository: physics-enthusiast/CDDA-Sky-Islands
             path: data/mods/Sky_Island
       - name: Get soundpack
         if: matrix.sound == 1
@@ -236,7 +236,7 @@ jobs:
       - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
           pip3 install dmgbuild biplist
       - name: Create VERSION.TXT
         shell: bash
@@ -296,12 +296,11 @@ jobs:
         if: matrix.artifact == 'linux-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/${{ github.repository }}/cataclysm-dda-devcontainer
-          cacheFrom: ghcr.io/${{ github.repository }}/cataclysm-dda-devcontainer
+          imageName: ghcr.io/${{ github.repository }}/cataclysm-dda-devcontainer-graphical
+          cacheFrom: ghcr.io/${{ github.repository }}/cataclysm-dda-devcontainer-graphical
+          configFile: ./.devcontainer/graphical/devcontainer.json
           push: always
           runCmd: |
-            sudo apt-get update
-            sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
             make -j$((`nproc`+0)) TILES=1 LINTJSON=0 RELEASE=1 object_creator
       - name: zip Object Creator (windows)
