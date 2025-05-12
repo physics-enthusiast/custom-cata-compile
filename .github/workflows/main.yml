@@ -175,7 +175,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-            repository: CleverRaven/Cataclysm-DDA
+            repository: physics-enthusiast/Cataclysm-DDA
+            ref: test
       - uses: actions/checkout@v4
         with:
             repository: physics-enthusiast/CDDA-Sky-Islands
